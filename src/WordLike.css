@@ -1,0 +1,44 @@
+.MuiButton-outlinedPrimary {
+  border: none !important
+}
+
+
+.react-ruler-wrapper {
+  position: absolute;
+  width: 870px;
+
+  left: 60px;
+  top: 100px;
+}
+
+.react-ruler-wrapper:nth-child(2)  {
+  position: absolute;
+  width: 870px;
+  transform: rotate(-90deg);
+  left: -450px;
+  top: 600px;
+}
+
+
+
+
+.react-ruler-wrapper .ruler-drag .ruler-point .ruler-line {
+  background-image: url('../src/Group 7.svg') !important;
+  background-repeat: no-repeat !important;
+  background-color: transparent !important;
+  width: 13px;
+  margin-top: 32px;
+  margin-left: -6px;
+}
+
+.react-ruler-wrapper .ruler-drag .ruler-point .point {
+  display: none;
+}
+
+.react-ruler-wrapper .ruler-list .rule-mark .line-text {
+  font-size: 14px;
+  top: -5px;
+  margin-left: -7px;
+  color: black;
+  font-weight: bold;
+}

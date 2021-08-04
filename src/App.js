@@ -1,13 +1,14 @@
+import { Container } from '@material-ui/core';
 import './App.css';
 import {WordLikeEditor} from "./WordLikeEditor";
 
 
 function App() {
   return (
-    <div className="App">
-        <div style={{top: 70, left: 50, position: "relative"}}>
+    <div>
+        <Container style={{padding: 10}}>
             <WordLikeEditor/>
-        </div>
+        </Container>
     </div>
   );
 }
