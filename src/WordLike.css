@@ -2,43 +2,74 @@
   border: none !important
 }
 
-
-.react-ruler-wrapper {
-  position: absolute;
-  width: 870px;
-
-  left: 60px;
-  top: 100px;
-}
-
-.react-ruler-wrapper:nth-child(2)  {
-  position: absolute;
-  width: 870px;
-  transform: rotate(-90deg);
-  left: -450px;
-  top: 600px;
-}
-
-
-
-
-.react-ruler-wrapper .ruler-drag .ruler-point .ruler-line {
-  background-image: url('../src/Group 7.svg') !important;
-  background-repeat: no-repeat !important;
+.MuiSlider-root:nth-child(1) .MuiSlider-thumb {
+  background: url("./Group 7.svg") no-repeat;
+  height: 40px !important;
+  top: 7px;
   background-color: transparent !important;
-  width: 13px;
-  margin-top: 32px;
-  margin-left: -6px;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 
-.react-ruler-wrapper .ruler-drag .ruler-point .point {
-  display: none;
+
+.MuiSlider-root:nth-child(1) {
+  color: black !important;
+  height: 10px !important;
 }
 
-.react-ruler-wrapper .ruler-list .rule-mark .line-text {
-  font-size: 14px;
-  top: -5px;
-  margin-left: -7px;
-  color: black;
-  font-weight: bold;
+.MuiSlider-root:nth-child(1) .MuiSlider-mark {
+  height: 10px !important;
+  background-color: rgb(131, 127, 127);
+}
+
+.MuiSlider-root:nth-child(1) .MuiSlider-rail {
+  height: 10px !important;
+  background-color: rgb(199, 198, 198);
+}
+
+.MuiSlider-root:nth-child(1) .MuiSlider-markActive {
+  height: 10px !important;
+  background-color: rgb(131, 127, 127);
+}
+
+.MuiSlider-root:nth-child(1) .MuiSlider-track {
+  height: 10px !important;
+  background-color: transparent;
+}
+
+.MuiSlider-root:nth-child(2) .MuiSlider-thumb {
+  background: url("./Group 7.svg") no-repeat;
+  height: 40px !important;
+  left: 23px;
+  padding: 0;
+  margin-bottom: -20px !important;
+  transform: rotate(-90deg);
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+
+.MuiSlider-root:nth-child(2) {
+  color: black !important;
+  width: 10px !important;
+}
+
+.MuiSlider-root:nth-child(2) .MuiSlider-mark {
+  width: 10px !important;
+  background-color: rgb(131, 127, 127);
+}
+
+.MuiSlider-root:nth-child(2) .MuiSlider-rail {
+  width: 10px !important;
+  background-color: rgb(199, 198, 198);
+}
+
+.MuiSlider-root:nth-child(2) .MuiSlider-markActive {
+  width: 10px !important;
+  background-color: rgb(131, 127, 127);
+}
+
+.MuiSlider-root:nth-child(2) .MuiSlider-track {
+  width: 10px !important;
+  background-color: transparent;
 }

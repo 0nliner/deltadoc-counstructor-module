@@ -43,71 +43,51 @@ const useStyles = makeStyles(theme => {
 
 
 function valuetext(value) {
-    return `${value}°C`;
+    return `${value}`;
 }
 
 
 function SilderY () {
-    const handleDragChange = (value) => {
-        console.log(value);
-     }
-      
-     const handleDragEnd = (value) => {
-        console.log(value);
-     }
-      
-     const handleDragStart = (value) => {
-        console.log(value);
-     }
-      
-     const handleRenderValue = (value) => {
-        return `${value}`;
-     }
+    const [value, setValue] = React.useState([20, 37]);
 
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
     return (
-        <Ruler
-        startValue={5}
-        onDrag={handleDragChange}
-        onDragEnd={handleDragEnd}
-        onDragStart={handleDragStart}
-        renderValue={handleRenderValue}
-        start={1}
-        end={100}
-        step={1}
-        />
+        <Slider
+        orientation="vertical"
+        value={value}
+        onChange={handleChange}
+        getAriaValueText={valuetext}
+        style={{position:"absolute", top: 200, left: -10, height: 800}}
+        aria-labelledby="discrete-slider-small-steps"
+        step={2}
+        marks
+        valueLabelDisplay="auto"
+      />
            
     );
 }
 
 function SilderX () {
-const handleDragChange = (value) => {
-    console.log(value);
- }
-  
- const handleDragEnd = (value) => {
-    console.log(value);
- }
-  
- const handleDragStart = (value) => {
-    console.log(value);
- }
-  
- const handleRenderValue = (value) => {
-    return `${value}`;
- }
 
+    const [value, setValue] = React.useState([20, 37]);
+
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
 
 return (
-    <Ruler
-    startValue={5}
-    onDrag={handleDragChange}
-    onDragEnd={handleDragEnd}
-    onDragStart={handleDragStart}
-    renderValue={handleRenderValue}
-    start={1}
-    end={100}
-    step={1}
-    />
+    <Slider
+  value={value}
+  onChange={handleChange}
+  getAriaValueText={valuetext}
+  marks
+  style={{position:"absolute", top: 145, left: 60, width: 870}}
+  aria-labelledby="range-slider"
+  step={2}
+  valueLabelDisplay="auto"
+/>
 );
 }
 
@@ -258,8 +238,7 @@ export function WordLikeEditor () {
             position: "absolute"
         }}>
             <SilderX/>
-            <SilderY style={{
-            }}/>
+            <SilderY/>
             <TopBar/>
             <TextArea/>
         </Grid>
