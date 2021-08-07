@@ -40,7 +40,7 @@
 .MuiSlider-root:nth-child(2) .MuiSlider-thumb {
   background: url("./Group 7.svg") no-repeat;
   height: 40px !important;
-  left: 23px;
+  
   padding: 0;
   margin-bottom: -20px !important;
   transform: rotate(-90deg);
@@ -72,4 +72,9 @@
 .MuiSlider-root:nth-child(2) .MuiSlider-track {
   width: 10px !important;
   background-color: transparent;
+}
+.MuiSlider-root:nth-child(2)
+
+.MuiSlider-thumb:nth-child(2) .MuiSlider-thumbColorPrimary .PrivateValueLabel-thumb-1 {
+  left: 80%
 }

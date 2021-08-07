@@ -1,5 +1,17 @@
 import React from "react";
-import {Box, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, Slider, Stack} from "@material-ui/core";
+import ReactDOM from "react-dom";
+import {
+    Box,
+    FormControl,
+    Grid,
+    InputLabel,
+    makeStyles,
+    MenuItem,
+    Select,
+    Slider,
+    Stack,
+    TextareaAutosize, Typography
+} from "@material-ui/core";
 // import Stack from '@material-ui/core/Stack';
 // icons
 import GoBackSVG from "./icons/go-back-arrow 1.svg";
@@ -35,6 +47,10 @@ import Ruler from 'rc-ruler-slider/dist';
 import 'rc-ruler-slider/dist/index.css';
 
 import './WordLike.css';
+import {useDispatch, useSelector} from "react-redux";
+import {data_selector} from "./redux/selectors";
+import {EditorReducer} from "./redux/reducers";
+import { textStyle } from "./components/TextStyle";
 const useStyles = makeStyles(theme => {
     root: {
 
@@ -75,6 +91,12 @@ function SilderX () {
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
+      let paddSlider = document.getElementsByClassName('MuiSlider-thumb MuiSlider-thumbColorPrimary PrivateValueLabel-thumb-1')[0].style.left;
+      let paddSliderRight = document.getElementsByClassName('MuiSlider-thumb MuiSlider-thumbColorPrimary PrivateValueLabel-thumb-1')[1].style.left;
+      let calc = 100 - parseInt(paddSliderRight);
+      console.log(calc)
+      let padd = document.getElementById('WordLikeEditor');
+      padd.style = `height: 100%; padding-left: ${paddSlider}; padding-right: ${calc}%;`
     };
 
 return (
@@ -107,12 +129,14 @@ function SingleTopBarIcon ({icon}) {
     );
 }
 
+
 function TopBar () {
     const [font, setFont] = React.useState(0);
 
     const handleChange = (event) =>{
         setFont(event.target.value);
     }
+    
 
     return (
         <Box style={{
@@ -161,9 +185,9 @@ function TopBar () {
                         </Select>
                     </FormControl>
                     <ButtonGroup style={{height: 43, background: "white", margin: 5, border: "none"}} color="primary" aria-label="outlined primary button group">
-                        <Button style={{maxWidth: '43px', minWidth: '43px'}}><img src={BSVG}/></Button>
-                        <Button style={{maxWidth: '43px', minWidth: '43px'}}><img src={ISVG}/></Button>
-                        <Button style={{maxWidth: '43px', minWidth: '43px'}}><img src={USVG}/></Button>
+                        <Button onClick={() => textStyle("bold")} style={{maxWidth: '43px', minWidth: '43px'}}><img src={BSVG}/></Button>
+                        <Button onClick={() => textStyle("italic")} style={{maxWidth: '43px', minWidth: '43px'}}><img src={ISVG}/></Button>
+                        <Button onClick={() => textStyle("decoration")} style={{maxWidth: '43px', minWidth: '43px'}}><img src={USVG}/></Button>
                     </ButtonGroup>
                     <Button style={{height: 43, width: 43, background: "white", margin: 5, border: "none", padding: 0, maxWidth: '43px', minWidth: '43px'}} color="primary"> <img src={PenSVG}/> </Button>
                     <FormControl style={{width: 79, margin: 5, height: 43, border: "none" }}>
@@ -214,6 +238,46 @@ function TopBar () {
 
 
 function TextArea () {
+    const dom_element = useSelector(state => state.EditorReducer.domElement);
+    const [isSelected, setSelected] = React.useState(false);
+
+    let text_buffer = "";
+    let selected_component = null;
+    let char_index = 0;
+
+    function keyDownHandler (e) {
+        // console.log(e);
+        // e.key;
+        // TODO:
+        //     определить положение курсора
+        // вызвать add_text (redux)
+        let word_like_editor_dom = document.getElementById('WordLikeEditor');
+
+        switch (e.key) {
+            case "Enter":
+                text_buffer = "";
+                let new_block = document.createElement('div');
+                new_block.id = String(word_like_editor_dom.children.length);
+                word_like_editor_dom.appendChild(new_block);
+                selected_component = new_block;
+                break;
+
+            default:
+                text_buffer += e.key;
+                // console.log(text_buffer);
+                break;
+        }
+
+        if (selected_component) {
+            selected_component.innerHTML = text_buffer;
+        }
+        else {
+            word_like_editor_dom.lastChild.innerHTML = text_buffer;
+        }
+    }
+
+    // ReactDOM.render(element, document.getElementById('root'));
+
     return (
         <div style={{borderRadius: 10,
                      boxShadow: "0 0 7px 7px rgba(0, 0, 0, 0.3)",
@@ -222,8 +286,14 @@ function TextArea () {
                      top: 200,
                      left: 54,
                      position: "absolute"
-        }}>
-
+        }}
+        >
+          <div 
+          id={"WordLikeEditor"}
+          style={{height: "100%", paddingLeft: "20%"}}
+          contentEditable="true"
+          >
+          </div>
         </div>
     );
 }
