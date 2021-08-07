@@ -1,5 +1,17 @@
 import React from "react";
-import {Box, FormControl, Grid, InputLabel, makeStyles, MenuItem, Select, Slider, Stack} from "@material-ui/core";
+import ReactDOM from "react-dom";
+import {
+    Box,
+    FormControl,
+    Grid,
+    InputLabel,
+    makeStyles,
+    MenuItem,
+    Select,
+    Slider,
+    Stack,
+    TextareaAutosize, Typography
+} from "@material-ui/core";
 // import Stack from '@material-ui/core/Stack';
 // icons
 import GoBackSVG from "./icons/go-back-arrow 1.svg";
@@ -35,6 +47,9 @@ import Ruler from 'rc-ruler-slider/dist';
 import 'rc-ruler-slider/dist/index.css';
 
 import './WordLike.css';
+import {useDispatch, useSelector} from "react-redux";
+import {data_selector} from "./redux/selectors";
+import {EditorReducer} from "./redux/reducers";
 const useStyles = makeStyles(theme => {
     root: {
 
@@ -234,6 +249,56 @@ function TopBar () {
 
 
 function TextArea () {
+    const dom_element = useSelector(state => state.EditorReducer.domElement);
+    const [isSelected, setSelected] = React.useState(false);
+
+    let text_buffer = "";
+    let selected_component = null;
+    let char_index = 0;
+
+    function keyDownHandler (e) {
+        // console.log(e);
+        // e.key;
+        // TODO:
+        //     определить положение курсора
+        // вызвать add_text (redux)
+        let word_like_editor_dom = document.getElementById('WordLikeEditor');
+
+        switch (e.key) {
+            case "Enter":
+                text_buffer = "";
+                let new_block = document.createElement('div');
+                new_block.id = String(word_like_editor_dom.children.length);
+                word_like_editor_dom.appendChild(new_block);
+                selected_component = new_block;
+                break;
+
+            default:
+                text_buffer += e.key;
+                // console.log(text_buffer);
+                break;
+        }
+
+        if (selected_component) {
+            selected_component.innerHTML = text_buffer;
+        }
+        else {
+            word_like_editor_dom.lastChild.innerHTML = text_buffer;
+        }
+    }
+
+    // ReactDOM.render(element, document.getElementById('root'));
+
+    React.useEffect(() => {
+        console.log(dom_element);
+        let word_like_editor_dom = document.getElementById('WordLikeEditor');
+        word_like_editor_dom.innerHTML = '';
+        word_like_editor_dom.appendChild(dom_element);
+
+        // TODO:
+        // тут записываем новую версию элемента в стор
+    })
+
     return (
         <div style={{borderRadius: 10,
                      boxShadow: "0 0 7px 7px rgba(0, 0, 0, 0.3)",
@@ -242,7 +307,31 @@ function TextArea () {
                      top: 200,
                      left: 54,
                      position: "absolute"
-        }}>
+        }}
+             onClick={e => {
+                            // console.log(isSelected);
+                            if (!isSelected) {
+                                setSelected(true);
+                                window.onkeydown = keyDownHandler;
+                            }
+                            else {
+                                // функция, отслеживающая на какой компонент мы нажали и на какой символ устанавливать курсор
+                                let x = e.clientX, y = e.clientY
+                                let elementMouseIsOver = document.elementFromPoint(x, y);
+                                selected_component = elementMouseIsOver;
+
+                                if (selected_component.parentElement.id != "WordLikeEditor") return;
+
+                                if (selected_component.innerHTML) {
+                                    text_buffer = selected_component.innerHTML;
+                                }
+                                console.log(selected_component);
+
+
+                            }
+             }}
+             id={"WordLikeEditor"}
+        >
 
         </div>
     );
