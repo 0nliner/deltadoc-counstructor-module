@@ -50,6 +50,7 @@ import './WordLike.css';
 import {useDispatch, useSelector} from "react-redux";
 import {data_selector} from "./redux/selectors";
 import {EditorReducer} from "./redux/reducers";
+import { textStyle } from "./components/TextStyle";
 const useStyles = makeStyles(theme => {
     root: {
 
@@ -90,6 +91,12 @@ function SilderX () {
 
     const handleChange = (event, newValue) => {
       setValue(newValue);
+      let paddSlider = document.getElementsByClassName('MuiSlider-thumb MuiSlider-thumbColorPrimary PrivateValueLabel-thumb-1')[0].style.left;
+      let paddSliderRight = document.getElementsByClassName('MuiSlider-thumb MuiSlider-thumbColorPrimary PrivateValueLabel-thumb-1')[1].style.left;
+      let calc = 100 - parseInt(paddSliderRight);
+      console.log(calc)
+      let padd = document.getElementById('WordLikeEditor');
+      padd.style = `height: 100%; padding-left: ${paddSlider}; padding-right: ${calc}%;`
     };
 
 return (
@@ -122,12 +129,14 @@ function SingleTopBarIcon ({icon}) {
     );
 }
 
+
 function TopBar () {
     const [font, setFont] = React.useState(0);
 
     const handleChange = (event) =>{
         setFont(event.target.value);
     }
+    
 
     return (
         <Box style={{
@@ -176,9 +185,9 @@ function TopBar () {
                         </Select>
                     </FormControl>
                     <ButtonGroup style={{height: 43, background: "white", margin: 5, border: "none"}} color="primary" aria-label="outlined primary button group">
-                        <Button style={{maxWidth: '43px', minWidth: '43px'}}><img src={BSVG}/></Button>
-                        <Button style={{maxWidth: '43px', minWidth: '43px'}}><img src={ISVG}/></Button>
-                        <Button style={{maxWidth: '43px', minWidth: '43px'}}><img src={USVG}/></Button>
+                        <Button onClick={() => textStyle("bold")} style={{maxWidth: '43px', minWidth: '43px'}}><img src={BSVG}/></Button>
+                        <Button onClick={() => textStyle("italic")} style={{maxWidth: '43px', minWidth: '43px'}}><img src={ISVG}/></Button>
+                        <Button onClick={() => textStyle("decoration")} style={{maxWidth: '43px', minWidth: '43px'}}><img src={USVG}/></Button>
                     </ButtonGroup>
                     <Button style={{height: 43, width: 43, background: "white", margin: 5, border: "none", padding: 0, maxWidth: '43px', minWidth: '43px'}} color="primary"> <img src={PenSVG}/> </Button>
                     <FormControl style={{width: 79, margin: 5, height: 43, border: "none" }}>
@@ -269,16 +278,6 @@ function TextArea () {
 
     // ReactDOM.render(element, document.getElementById('root'));
 
-    React.useEffect(() => {
-        console.log(dom_element);
-        let word_like_editor_dom = document.getElementById('WordLikeEditor');
-        word_like_editor_dom.innerHTML = '';
-        word_like_editor_dom.appendChild(dom_element);
-
-        // TODO:
-        // тут записываем новую версию элемента в стор
-    })
-
     return (
         <div style={{borderRadius: 10,
                      boxShadow: "0 0 7px 7px rgba(0, 0, 0, 0.3)",
@@ -288,31 +287,13 @@ function TextArea () {
                      left: 54,
                      position: "absolute"
         }}
-             onClick={e => {
-                            // console.log(isSelected);
-                            if (!isSelected) {
-                                setSelected(true);
-                                window.onkeydown = keyDownHandler;
-                            }
-                            else {
-                                // функция, отслеживающая на какой компонент мы нажали и на какой символ устанавливать курсор
-                                let x = e.clientX, y = e.clientY
-                                let elementMouseIsOver = document.elementFromPoint(x, y);
-                                selected_component = elementMouseIsOver;
-
-                                if (selected_component.parentElement.id != "WordLikeEditor") return;
-
-                                if (selected_component.innerHTML) {
-                                    text_buffer = selected_component.innerHTML;
-                                }
-                                console.log(selected_component);
-
-
-                            }
-             }}
-             id={"WordLikeEditor"}
         >
-
+          <div 
+          id={"WordLikeEditor"}
+          style={{height: "100%", paddingLeft: "20%"}}
+          contentEditable="true"
+          >
+          </div>
         </div>
     );
 }
